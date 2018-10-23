@@ -1,0 +1,36 @@
+{
+  "plasma": {
+    "equilibrium_type":"",
+    "edge": {
+      "present": true,
+      "type": "SOLPS",
+      "SOLPS_format": "MDSplus",
+      "mds_server": "solps-mdsplus.aug.ipp.mpg.de:8001",
+      "mds_solps_reference": 69636
+    },
+    "core": {
+      "type": "TRANSP"
+    },
+    "emission_instructions": [
+      {"species": "deuterium", "ionisation": 0, "upper": 3, "lower": 2, "type": "ExcitationLine"},
+      {"species": "deuterium", "ionisation": 0, "upper": 5, "lower": 2, "type": "RecombinationLine"},
+      {"species": "carbon", "ionisation": 2, "upper": "2s1 3p1 3P4.0", "lower": "2s1 3s1 3S1.0", "type": "ExcitationLine"}
+    ]
+  },
+  "machine": {
+    "name": "MAST-U",
+    "reflecting": true
+  },
+  "observer": {
+    "type": "filtered_camera",
+    "camera_id": "BULLET-MIDPLANE",
+    "display_progress": false,
+    "rgb_pipeline": true,
+    "power_pipeline": false,
+    "radiance_pipeline": false
+  },
+  "raytracing": {
+    "integration_step": 0.0025,
+    "pixel_samples": 1
+  }
+}

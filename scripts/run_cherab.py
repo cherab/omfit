@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 from raysect.optical import World
-from cherab.omfit import load_machine, load_edge_simulation, load_dms_power,load_dms_fibres,load_dms_spectrometer
+from cherab.omfit import load_machine, load_edge_simulation
 from netCDF4 import Dataset
 
 class dms:
@@ -20,6 +20,7 @@ class dms:
             load_machine(config, self.world)
 
     def simulate(self):
+        from cherab.omfit import load_dms_power,load_dms_fibres,load_dms_spectrometer        
         # Load diagnostic geometry
         self.fibres = load_dms_fibres(self.config)
         # Load diagnostic geometry
@@ -54,12 +55,10 @@ class dms:
         orig.units = 'm'
         orig[:]    = [self.fibres.origin[0],self.fibres.origin[1],self.fibres.origin[2]]
         dataset.close()
-        
 class camera:
     """
     Filtered camera
     """
-
     def __init__(self,config=None):
         if config is not None:
             self.world = World()
@@ -68,15 +67,25 @@ class camera:
             load_machine(config, self.world)
 
     def simulate(self):
+        from cherab.omfit import load_camera, load_emission
+
         if self.config['plasma']['edge']['present'] or self.config['plasma']['core']['present']:
             # Load the edge plasma solution if present	  
             plasma = load_edge_simulation(self.config, self.world)
             # Load all the emission line models
             load_emission(self.config, self.plasma)
             # Load the specified filtered camera
-            camera = load_camera(self.config, self.world)
         else:
             print ("No SOL or core model specified")
+
+        self.camera = load_camera(self.config, self.world)
+#        plt.ion()
+        self.camera.observe()
+#        plt.ioff()
+#        plt.show()
+    def write_cdf(self,ncfile='cherab.nc'):            
+        # Output netCDF file
+        print ("Not developed yet")        
         
 if __name__ == '__main__':
        
@@ -96,11 +105,11 @@ if __name__ == '__main__':
         sim = dms(config)
         sim.simulate()
         sim.write_cdf(ncfile=ncfile)
-    elif config['observer']['simulate']:
+
+    if config['observer']['simulate']:
         sim = camera(config)
         sim.simulate()
         sim.write_cdf(ncfile=ncfile)
-    else:
-        "No diagnostic loaded"
+
 
      

@@ -8,7 +8,7 @@ def load_camera(config, world):
 
         from cherab.mastu.cameras import load_camera as load_mastu_camera
 
-        camera = load_mastu_camera(config["observer"]["camera_id"], world)
+        camera = load_mastu_camera(config["observer"]["camera_id"], world,stride=config["observer"]["stride"])
 
     else:
         raise ValueError("Automatic camera loading is not supported for your machine.")

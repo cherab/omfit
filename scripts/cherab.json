@@ -32,7 +32,7 @@
   ],
   "edge": {
    "__comment-2177199680269845130__": "!    o Specify SOLPS details\n",
-   "present": false,
+   "present": true,
    "type": "SOLPS",
    "SOLPS_format": "MDSplus",
    "mds_server": "solps-mdsplus.aug.ipp.mpg.de:8001",
@@ -52,18 +52,19 @@
   "__comment-8798226269957877891__": "! specify tokamak\n",
   "name": "MAST-U",
   "__comment-5902058675352609970__": "! specify if reflecting model should be loaded\n",
-  "reflecting": true,
+  "reflecting": false,
   "__comment-225344732264250526__": "!\n"
  },
  "observer": {
   "__comment4224012704__": "!\n",
   "__comment-1155473421964088967__": "! specify diagnostic settings\n",
-  "simulate": false,
+  "simulate": true,
+  "stride": 5,
   "type": "filtered_camera",
   "camera_id": "BULLET-MIDPLANE",
-  "display_progress": false,
-  "rgb_pipeline": true,
-  "power_pipeline": false,
+  "display_progress": true,
+  "rgb_pipeline": false,
+  "power_pipeline": true,
   "radiance_pipeline": false,
   "__comment-225344732264250526__": "!\n"
  },
@@ -77,7 +78,7 @@
  "dms": {
   "__comment4224012704__": "!\n",
   "__comment-1155473421964088967__": "! specify diagnostic settings\n",
-  "simulate": true,
+  "simulate": false,
   "spectrometer": 1,
   "fibres": 1,
   "power_pipeline": true,

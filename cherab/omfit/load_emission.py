@@ -1,7 +1,7 @@
 
 from cherab.core.atomic import Line
 from cherab.core.atomic.elements import hydrogen, deuterium, carbon, helium, nitrogen, neon, argon, krypton, xenon
-from cherab.core.model import ExcitationLine, RecombinationLine
+from cherab.core.model import ExcitationLine, RecombinationLine, MultipletLineShape
 
 from cherab.openadas import OpenADAS
 from cherab.openadas.install import install_adf15
@@ -61,7 +61,11 @@ def load_emission(config, plasma):
         _ = plasma.composition.get(species, ionisation)
 
         line = Line(species, ionisation, (upper, lower))
-
-        models.append(_EMISSION_TYPE_LOOKUP[emission_instruction["type"]](line))
-
+        if emission_instruction["multiplet"]:
+            multipletWvlngths = emission_instruction["multipletWvlngths"]
+            multipletRatios = emission_instruction["multipletRatios"]
+            multiplet = [multipletWvlngths,multipletRatios]    
+            models.append(_EMISSION_TYPE_LOOKUP[emission_instruction["type"]](line,lineshape=MultipletLineShape,lineshape_args=[multiplet]))
+        else:
+            models.append(_EMISSION_TYPE_LOOKUP[emission_instruction["type"]](line))
     plasma.models = models

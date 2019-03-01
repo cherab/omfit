@@ -12,31 +12,268 @@
     "upper": 3,
     "lower": 2,
     "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
     "type": "ExcitationLine",
-    "species": "deuterium"
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 3,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 4,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 4,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
    },
    {
     "upper": 5,
     "lower": 2,
     "ionisation": 0,
-    "type": "RecombinationLine",
-    "species": "deuterium"
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
    },
    {
-    "upper": "2s1 3p1 3P4.0",
-    "lower": "2s1 3s1 3S1.0",
-    "ionisation": 2,
+    "upper": 5,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 6,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
     "type": "ExcitationLine",
-    "species": "carbon"
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 6,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 7,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 7,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 8,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 8,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 9,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 9,
+    "lower": 2,
+    "ionisation": 0,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": "2s2 2p1 4f1 3G13.0",
+    "lower": "2s2 2p1 3d1 3F10.0",
+    "ionisation": 1,
+    "multiplet": true,
+    "multipletWvlngths": [
+     403.509,
+     404.132,
+     404.354,
+     404.479,
+     405.692
+    ],
+    "wavelength": 404.1,
+    "type": "ExcitationLine",
+    "species": "nitrogen",
+    "multipletRatios": [
+     0.205,
+     0.562,
+     0.175,
+     0.029,
+     0.029
+    ]
+   },
+   {
+    "upper": "2s2 2p1 4f1 3G13.0",
+    "lower": "2s2 2p1 3d1 3F10.0",
+    "ionisation": 1,
+    "multiplet": true,
+    "multipletWvlngths": [
+     403.509,
+     404.132,
+     404.354,
+     404.479,
+     405.692
+    ],
+    "wavelength": 404.1,
+    "type": "RecombinationLine",
+    "species": "nitrogen",
+    "multipletRatios": [
+     0.205,
+     0.562,
+     0.175,
+     0.029,
+     0.029
+    ]
    }
   ],
+  "installADF15": false,
+  "adf15": {},
   "edge": {
    "__comment-2177199680269845130__": "!    o Specify SOLPS details\n",
    "present": true,
    "type": "SOLPS",
    "SOLPS_format": "MDSplus",
    "mds_server": "solps-mdsplus.aug.ipp.mpg.de:8001",
-   "mds_solps_reference": 69636
+   "mds_solps_reference": 121838
   },
   "core": {
    "__comment-7634578443956683666__": "!    o Specify TRANSP details\n",
@@ -52,19 +289,19 @@
   "__comment-8798226269957877891__": "! specify tokamak\n",
   "name": "MAST-U",
   "__comment-5902058675352609970__": "! specify if reflecting model should be loaded\n",
-  "reflecting": false,
+  "reflecting": true,
   "__comment-225344732264250526__": "!\n"
  },
  "observer": {
   "__comment4224012704__": "!\n",
   "__comment-1155473421964088967__": "! specify diagnostic settings\n",
-  "simulate": true,
-  "stride": 5,
+  "simulate": false,
   "type": "filtered_camera",
   "camera_id": "BULLET-MIDPLANE",
-  "display_progress": true,
-  "rgb_pipeline": false,
-  "power_pipeline": true,
+  "display_progress": false,
+  "stride": 1,
+  "rgb_pipeline": true,
+  "power_pipeline": false,
   "radiance_pipeline": false,
   "__comment-225344732264250526__": "!\n"
  },
@@ -78,11 +315,17 @@
  "dms": {
   "__comment4224012704__": "!\n",
   "__comment-1155473421964088967__": "! specify diagnostic settings\n",
-  "simulate": false,
+  "simulate": true,
   "spectrometer": 1,
   "fibres": 1,
-  "power_pipeline": true,
-  "radiance_pipeline": false,
+  "power_pipeline": false,
+  "radiance_pipeline": true,
+  "__comment-225344732264250526__": "!\n"
+ },
+ "bolometry": {
+  "__comment4224012704__": "!\n",
+  "__comment-1155473421964088967__": "! specify diagnostic settings\n",
+  "simulate": false,
   "__comment-225344732264250526__": "!\n"
  }
 }

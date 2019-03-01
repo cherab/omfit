@@ -1,7 +1,7 @@
 
 from cherab.core.atomic import Line
 from cherab.core.atomic.elements import hydrogen, deuterium, carbon, helium, nitrogen, neon, argon, krypton, xenon
-from cherab.core.model import ExcitationLine, RecombinationLine, MultipletLineShape
+from cherab.core.model import ExcitationLine, RecombinationLine, MultipletLineShape, Bremsstrahlung
 
 from cherab.openadas import OpenADAS
 from cherab.openadas.install import install_adf15
@@ -41,7 +41,9 @@ def load_emission(config, plasma):
             adas_path  = adf15["adas_path"]
             install_adf15(species,charge,file_path,adas_path=adas_path)
             
-    
+    if config["plasma"]["bremsstrahlung"]:
+        models.append(Bremsstrahlung())
+
     for emission_instruction in config["plasma"]["emission_instructions"]:
        
         try:
@@ -54,7 +56,6 @@ def load_emission(config, plasma):
         transition =(upper,lower)
         wavelength = emission_instruction["wavelength"]
         if not wavelength == 0: 
-            print ("Adding wavelength")
             add_wavelength(species,ionisation,transition,wavelength)
 
         # Do a test call to see if the species exists on this plasma.

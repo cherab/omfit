@@ -19,6 +19,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -34,6 +35,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -49,6 +51,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -64,6 +67,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -79,6 +83,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -94,6 +99,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -109,6 +115,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -124,6 +131,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -139,6 +147,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -154,6 +163,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -169,6 +179,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -184,6 +195,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -199,6 +211,7 @@
     "wavelength": 0.0,
     "type": "ExcitationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -214,6 +227,7 @@
     "wavelength": 0.0,
     "type": "RecombinationLine",
     "species": "deuterium",
+    "stark": true,
     "multipletRatios": [
      0.0
     ]
@@ -222,6 +236,7 @@
     "upper": "2s2 2p1 4f1 3G13.0",
     "lower": "2s2 2p1 3d1 3F10.0",
     "ionisation": 1,
+    "stark": false,
     "multiplet": true,
     "multipletWvlngths": [
      403.509,
@@ -245,6 +260,7 @@
     "upper": "2s2 2p1 4f1 3G13.0",
     "lower": "2s2 2p1 3d1 3F10.0",
     "ionisation": 1,
+    "stark": false,
     "multiplet": true,
     "multipletWvlngths": [
      403.509,
@@ -273,7 +289,7 @@
    "type": "SOLPS",
    "SOLPS_format": "MDSplus",
    "mds_server": "solps-mdsplus.aug.ipp.mpg.de:8001",
-   "mds_solps_reference": 121838
+   "mds_solps_reference": 121853
   },
   "core": {
    "__comment-7634578443956683666__": "!    o Specify TRANSP details\n",
@@ -282,7 +298,8 @@
    "TRANSP_format": "netcdf",
    "shot": 29424,
    "runid": "Z01"
-  }
+  },
+  "bremsstrahlung": true
  },
  "machine": {
   "__comment4224012704__": "!\n",
@@ -316,7 +333,7 @@
   "__comment4224012704__": "!\n",
   "__comment-1155473421964088967__": "! specify diagnostic settings\n",
   "simulate": true,
-  "spectrometer": 1,
+  "spectrometer": 4,
   "fibres": 1,
   "power_pipeline": false,
   "radiance_pipeline": true,

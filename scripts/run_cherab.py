@@ -6,6 +6,8 @@ import time
 from raysect.optical import World
 from cherab.omfit import load_machine
 from netCDF4 import Dataset
+from collections import namedtuple
+vertex = namedtuple("vertex", "x y")
 
 def clamp(n, minn, maxn):
     if n < minn:
@@ -14,7 +16,6 @@ def clamp(n, minn, maxn):
         return maxn
     else:
         return n
-
 
 class dms:
     """
@@ -63,7 +64,7 @@ class dms:
         distance.label = 'Line-of-sight distance'
         distance.units = 'm'
    
-        orig       = dmsgroup.createVariable('origin',np.float32,('nVec'))
+        orig       = dmsgroup.createVariable('origin',np.float32,('nVec','nFibres'))
         orig.label = 'Fibre origin'
         orig.units = 'm'
 
@@ -78,10 +79,10 @@ class dms:
         Fibres[:]          = range(1,self.fibres.numfibres+1)
         power[:]           = self.power
         Wavelength_arr[:]  = self.spec.wlngth
-        orig[:]            = [self.fibres.origin[0],self.fibres.origin[1],self.fibres.origin[2]]
 
         for i in range(self.fibres.numfibres):
             self.fibres.set_fibre(number=int(i+1))        
+            orig[:,i]     = [self.fibres.origin[0],self.fibres.origin[1],self.fibres.origin[2]]
             uVec[:,i]   = [self.fibres.xhat(),self.fibres.yhat(),self.fibres.zhat()]
             distance[i] = self.fibres.fibre_distance_world(self.world)
             spectra[:,i]= self.spectra[:,i]
@@ -122,38 +123,76 @@ class simulation:
     Filtered camera details
     """
     def __init__(self,world=None,config=None):
-        self.plasma    = None
-        self.world     = world
-        self.config    = config
-        self.te_plasma = np.zeros((500, 500))
-        self.ne_plasma = np.zeros((500, 500))
-        self.xrange    = np.linspace(0.0, 2.5, 500)
-        self.yrange    = np.linspace(-2.5, 2.5, 500) 
+        self.plasma     = None
+        self.mesh       = None
+        self.world      = world
+        self.config     = config
+        self.num        = 500
+        self.te_plasma  = np.zeros((self.num, self.num))
+        self.ne_plasma  = np.zeros((self.num, self.num))
+        self.n1_emiss   = np.zeros((self.num, self.num))
+        self.n1_density = np.zeros((self.num, self.num))
+        Rrange          = np.array(config['plasma']['edge']['Rrange'])
+        Zrange          = np.array(config['plasma']['edge']['Zrange'])
+        self.xrange     = np.linspace(Rrange[0],Rrange[1], self.num)
+        self.yrange     = np.linspace(Zrange[0],Zrange[1], self.num) 
+
     def load(self):
         if self.config['plasma']['edge']['present']:
             from cherab.omfit import load_emission, load_edge_simulation
             # Load the edge plasma solution if present	  
-            self.plasma = load_edge_simulation(self.config, self.world)
+            self.plasma, self.mesh = load_edge_simulation(self.config, self.world)
             # Load all the emission line models
-            load_emission(self.config, self.plasma)
-
+            load_emission(self.config, self.plasma, self.n1_density, self.n1_emiss, self.xrange, self.yrange)
+            # Get electron temperature and density
             for i, x in enumerate(self.xrange):
                 for j, y in enumerate(self.yrange):
                     val = self.plasma.electron_distribution.effective_temperature(x, 0.0, y)
-                    self.te_plasma[j, i] = clamp(val,0,50.0)
-                    val = self.plasma.electron_distribution.density(x, 0.0, y)
-                    self.ne_plasma[j, i] = val
+                    self.te_plasma[j, i]  = clamp(val,0,50.0)
+                    self.ne_plasma[j, i]  = self.plasma.electron_distribution.density(x, 0.0, y)
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
         dataset = Dataset(ncfile,'a')
-        # Geometry details
-        plasmagroup = dataset.createGroup("plasma")
+        # Mesh details
+        if self.config['plasma']['edge']['mesh']:
+            meshgroup       = dataset.createGroup("mesh")
+            nDistributionX  = meshgroup.createDimension('nDistributionX',4)
+            nDistributionsX = meshgroup.createVariable('nDistributionX',np.float32,('nDistributionX'))
+            nDistributionY  = meshgroup.createDimension('nDistributionY',len(self.mesh.triangles))
+            nDistributionsY = meshgroup.createVariable('nDistributionY',np.float32,('nDistributionY'))
 
-        nDistributionX = plasmagroup.createDimension('nDistributionX',500)
+            nDistributionsX[:]    = (0,1,2,3)
+            nDistributionsX.units = '[-]'
+            nDistributionsX.label = 'Vertice points'
+            nDistributionsY[:]    = range(0,len(self.mesh.triangles))
+            nDistributionsY.units = '[-]'
+            nDistributionsY.label = 'Number of triangles'
+            
+            mesh_coords_x     = meshgroup.createVariable('mesh_coords_x',np.float32,('nDistributionX','nDistributionY'))
+            mesh_coords_x .label = 'Mesh X vertice coordinates'
+            mesh_coords_x .units = 'm'
+
+            mesh_coords_y     = meshgroup.createVariable('mesh_coords_y',np.float32,('nDistributionX','nDistributionY'))
+            mesh_coords_y.label = 'Mesh Y vertice coordinates'
+            mesh_coords_y.units = 'm'
+
+            i = 0 
+            for triangle in self.mesh.triangles:
+                i1, i2, i3 = triangle
+                v1 = vertex(*self.mesh.vertex_coords[i1])
+                v2 = vertex(*self.mesh.vertex_coords[i2])
+                v3 = vertex(*self.mesh.vertex_coords[i3])
+                mesh_coords_x[:,i] = [v1.x, v2.x, v3.x, v1.x]
+                mesh_coords_y[:,i] = [v1.y, v2.y, v3.y, v1.y]
+                i += 1
+     
+        # Plasma details
+        plasmagroup     = dataset.createGroup("plasma")
+        nDistributionX  = plasmagroup.createDimension('nDistributionX',self.num)
         nDistributionsX = plasmagroup.createVariable('nDistributionX',np.float32,('nDistributionX'))
 
-        nDistributionY = plasmagroup.createDimension('nDistributionY',500)
+        nDistributionY  = plasmagroup.createDimension('nDistributionY',self.num)
         nDistributionsY = plasmagroup.createVariable('nDistributionY',np.float32,('nDistributionY'))
 
         nDistributionsX[:] = self.xrange
@@ -171,15 +210,26 @@ class simulation:
         Ne.label='Plasma ne'
         Ne.units='m-3'
 
+        NII = plasmagroup.createVariable('NII',np.float32,('nDistributionX','nDistributionY'))
+        NII.label='Plasma N II'
+        NII.units='ph/m-3/s'
+
+        NN = plasmagroup.createVariable('NN',np.float32,('nDistributionX','nDistributionY'))
+        NN.label='Plasma N1+ density'
+        NN.units='m-3'
         if self.xrange is not None:
             for i, x in enumerate(self.xrange):
                     Te[i,:]=self.te_plasma[i,:]
                     Ne[i,:]=self.ne_plasma[i,:]
+                    NII[i,:]=self.n1_emiss[i,:]
+                    NN[i,:]=self.n1_density[i,:]
         else:
-            Te[:,:] = self.te_plasma
-            Ne[:,:] = self.ne_plasma
+            Te[:,:]  = self.te_plasma
+            Ne[:,:]  = self.ne_plasma
+            NII[:,:] = self.n1_emiss
+            NN [:,:] = self.n1_density
         dataset.close()
-    
+  
         
 if __name__ == '__main__':
        
@@ -215,6 +265,5 @@ if __name__ == '__main__':
         diagCAM = camera(world=world,config=config,plasma=sim)
         diagCAM.simulate()
         diagCAM.write_cdf(ncfile=ncfile)
-
 
      

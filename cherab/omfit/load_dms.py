@@ -39,7 +39,7 @@ def load_dms_output(config,world,plasma,spec,fibgeom):
     return power_arr,spectra_arr
 
 def load_dms_spectrometer(config):
-    from cherab.mastu.div_spectrometer import spectrometer
+    from cherab.mastu.div_spectrometer import spectrometer  
     spec=spectrometer()
     spec.set_range(setting=config['dms']['spectrometer']) 
     return spec	

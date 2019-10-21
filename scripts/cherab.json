@@ -429,14 +429,14 @@
    "type": "SOLPS",
    "SOLPS_format": "MDSplus",
    "mds_server": "solps-mdsplus.aug.ipp.mpg.de:8001",
-   "mds_solps_reference": 141893,
+   "mds_solps_reference": 121853,
    "Rrange": [
-    1.1,
-    1.8
+    0.0,
+    3.0
    ],
    "Zrange": [
-    -1.3,
-    -0.75
+    -2.5,
+    -2.5
    ],
    "mesh": true
   },
@@ -486,6 +486,7 @@
   "fibres": 1,
   "power_pipeline": false,
   "radiance_pipeline": true,
+  "los_profiles": true,  
   "__comment-225344732264250526__": "!\n"
  },
  "bolometry": {

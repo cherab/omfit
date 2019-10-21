@@ -5,10 +5,14 @@ def load_dms_output(config,world,plasma,spec,fibgeom):
     from raysect.optical.observer import FibreOptic, PowerPipeline0D, SpectralRadiancePipeline0D
     from raysect.optical import translate, rotate, rotate_basis
     from raysect.core import Vector3D, Point3D
+    from raysect.core.ray import Ray as CoreRay
 
     power_arr = np.zeros(fibgeom.numfibres)
     spectra_arr = np.zeros((spec.pixels,fibgeom.numfibres))
-
+    te_los = np.zeros((100,fibgeom.numfibres))
+    ne_los = np.zeros((100,fibgeom.numfibres))
+    d_los  = np.zeros((100,fibgeom.numfibres))
+ 
     for i, f in enumerate(power_arr):
         print ("Analysing fibre: ",int(i+1))
         fibgeom.set_fibre(number=int(i+1))        
@@ -35,8 +39,21 @@ def load_dms_output(config,world,plasma,spec,fibgeom):
             spectra_arr[:,i] = spectra.samples.mean
         else:
             spectra_arr[:,i] = None
+        if config['dms']['los_profiles']:
+            dist_var = np.linspace(0, fibgeom.fibre_distance_world(world), num=100, dtype=float)
+            for j,t in enumerate(dist_var):
+                x = start_point.x + fibgeom.xhat() * t
+                y = start_point.y + fibgeom.yhat() * t
+                z = start_point.z + fibgeom.zhat() * t
+                te_los[j,i] = plasma.electron_distribution.effective_temperature(x,y,z)
+                ne_los[j,i] = plasma.electron_distribution.density(x,y,z)
+                d_los[j,i]  = t
+        else:
+            d_los[:,i]  = None
+            te_los[:,i] = None
+            ne_los[:,i] = None
 
-    return power_arr,spectra_arr
+    return power_arr,spectra_arr,te_los,ne_los,d_los
 
 def load_dms_spectrometer(config):
     from cherab.mastu.div_spectrometer import spectrometer  

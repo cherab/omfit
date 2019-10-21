@@ -26,21 +26,24 @@ class dms:
         if config is not None:
             self.world = world
             self.config = config
+            self.plasma = plasma
             self.power = None
             self.spectra=None
-            self.te_plasma=None
-            self.ne_plasma=None
+            self.te_los=None
+            self.ne_los=None
+            self.d_los=None
             self.spec = None
             self.fibres=None
-            self.plasma = plasma
+            
     def simulate(self):
         from cherab.omfit import load_dms_output,load_dms_fibres,load_dms_spectrometer        
+        from raysect.core import Vector3D, Point3D
         # Load diagnostic geometry
         self.fibres = load_dms_fibres(self.config)
         # Load diagnostic settings
         self.spec = load_dms_spectrometer(self.config)
         # Simulate synthetic measurement
-        self.power,self.spectra = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres)
+        self.power,self.spectra,self.te_los,self.ne_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres)        
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
@@ -53,6 +56,7 @@ class dms:
 
         Wavelength     = dmsgroup.createDimension('Wavelength',self.spec.pixels)
         Wavelength_arr = dmsgroup.createVariable('Wavelength',np.float32,('Wavelength'))
+
         
         nVec = dmsgroup.createDimension('nVec',3)
 
@@ -71,7 +75,7 @@ class dms:
         power       = dmsgroup.createVariable('line-integrated_power',np.float32,('nFibres'))
         power.label = 'Line-integrated power'
         power.units = 'W'
-
+        
         spectra       = dmsgroup.createVariable('line-integrated_spectrum',np.float32,('Wavelength','nFibres'))
         spectra.label = 'Line-integrated spectrum'
         spectra.units = 'W/m2'
@@ -80,13 +84,30 @@ class dms:
         power[:]           = self.power
         Wavelength_arr[:]  = self.spec.wlngth
 
+        LoS          = dmsgroup.createDimension('LoS',100)
+
+        te_los       = dmsgroup.createVariable('LoS_Te',np.float32,('LoS','nFibres'))
+        te_los.label = 'Line-of-sight Te'
+        te_los.units = 'eV'
+
+        ne_los       = dmsgroup.createVariable('LoS_ne',np.float32,('LoS','nFibres'))
+        ne_los.label = 'Line-of-sight ne'
+        ne_los.units = 'm-3'
+
+        d_los       = dmsgroup.createVariable('LoS_dist',np.float32,('LoS','nFibres'))
+        d_los.label = 'Line-of-sight distance'
+        d_los.units = 'm'
+
         for i in range(self.fibres.numfibres):
             self.fibres.set_fibre(number=int(i+1))        
-            orig[:,i]     = [self.fibres.origin[0],self.fibres.origin[1],self.fibres.origin[2]]
-            uVec[:,i]   = [self.fibres.xhat(),self.fibres.yhat(),self.fibres.zhat()]
-            distance[i] = self.fibres.fibre_distance_world(self.world)
-            spectra[:,i]= self.spectra[:,i]
-
+            orig[:,i]    = [self.fibres.origin[0],self.fibres.origin[1],self.fibres.origin[2]]
+            uVec[:,i]    = [self.fibres.xhat(),self.fibres.yhat(),self.fibres.zhat()]
+            distance[i]  = self.fibres.fibre_distance_world(self.world)
+            spectra[:,i] = self.spectra[:,i]
+            te_los[:,i]  = self.te_los[:,i]
+            ne_los[:,i]  = self.ne_los[:,i]
+            d_los[:,i]   = self.d_los[:,i]
+           
         dataset.close()
 class camera:
     """
@@ -144,12 +165,12 @@ class simulation:
             self.plasma, self.mesh = load_edge_simulation(self.config, self.world)
             # Load all the emission line models
             load_emission(self.config, self.plasma, self.n1_density, self.n1_emiss, self.xrange, self.yrange)
-            # Get electron temperature and density
+            # Get electron temperature and density of 2D profile
             for i, x in enumerate(self.xrange):
                 for j, y in enumerate(self.yrange):
                     val = self.plasma.electron_distribution.effective_temperature(x, 0.0, y)
                     self.te_plasma[j, i]  = clamp(val,0,50.0)
-                    self.ne_plasma[j, i]  = self.plasma.electron_distribution.density(x, 0.0, y)
+                    self.ne_plasma[j, i]  = self.plasma.electron_distribution.density(x, 0.0, y)            
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
@@ -228,6 +249,7 @@ class simulation:
             Ne[:,:]  = self.ne_plasma
             NII[:,:] = self.n1_emiss
             NN [:,:] = self.n1_density
+
         dataset.close()
   
         
@@ -257,12 +279,12 @@ if __name__ == '__main__':
     
     # Load each diagnostic
     if config['dms']['simulate']:
-        diagDMS = dms(world=world,config=config,plasma=sim)
+        diagDMS = dms(world=world,config=config,plasma=sim.plasma)
         diagDMS.simulate()
         diagDMS.write_cdf(ncfile=ncfile)
 
     if config['observer']['simulate']:
-        diagCAM = camera(world=world,config=config,plasma=sim)
+        diagCAM = camera(world=world,config=config,plasma=sim.plasma)
         diagCAM.simulate()
         diagCAM.write_cdf(ncfile=ncfile)
 

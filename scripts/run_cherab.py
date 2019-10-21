@@ -151,7 +151,7 @@ class simulation:
         self.num        = 500
         self.te_plasma  = np.zeros((self.num, self.num))
         self.ne_plasma  = np.zeros((self.num, self.num))
-        self.n1_emiss   = np.zeros((self.num, self.num))
+        self.emiss2d   = np.zeros((self.num, self.num))
         self.n1_density = np.zeros((self.num, self.num))
         Rrange          = np.array(config['plasma']['edge']['Rrange'])
         Zrange          = np.array(config['plasma']['edge']['Zrange'])
@@ -164,7 +164,7 @@ class simulation:
             # Load the edge plasma solution if present	  
             self.plasma, self.mesh = load_edge_simulation(self.config, self.world)
             # Load all the emission line models
-            load_emission(self.config, self.plasma, self.n1_density, self.n1_emiss, self.xrange, self.yrange)
+            load_emission(self.config, self.plasma, self.n1_density, self.emiss2d, self.xrange, self.yrange)
             # Get electron temperature and density of 2D profile
             for i, x in enumerate(self.xrange):
                 for j, y in enumerate(self.yrange):
@@ -231,9 +231,9 @@ class simulation:
         Ne.label='Plasma ne'
         Ne.units='m-3'
 
-        NII = plasmagroup.createVariable('NII',np.float32,('nDistributionX','nDistributionY'))
-        NII.label='Plasma N II'
-        NII.units='ph/m-3/s'
+        emiss = plasmagroup.createVariable('emiss',np.float32,('nDistributionX','nDistributionY'))
+        emiss.label='Plasma emission'
+        emiss.units='ph/m-3/s'
 
         NN = plasmagroup.createVariable('NN',np.float32,('nDistributionX','nDistributionY'))
         NN.label='Plasma N1+ density'
@@ -242,12 +242,12 @@ class simulation:
             for i, x in enumerate(self.xrange):
                     Te[i,:]=self.te_plasma[i,:]
                     Ne[i,:]=self.ne_plasma[i,:]
-                    NII[i,:]=self.n1_emiss[i,:]
+                    emiss[i,:]=self.emiss2d[i,:]
                     NN[i,:]=self.n1_density[i,:]
         else:
             Te[:,:]  = self.te_plasma
             Ne[:,:]  = self.ne_plasma
-            NII[:,:] = self.n1_emiss
+            emiss[:,:] = self.emiss2d
             NN [:,:] = self.n1_density
 
         dataset.close()

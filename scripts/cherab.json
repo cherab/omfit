@@ -12,6 +12,7 @@
     "upper": 3,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": true,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -28,6 +29,7 @@
     "upper": 3,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": true,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -44,6 +46,7 @@
     "upper": 4,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -60,6 +63,7 @@
     "upper": 4,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -76,6 +80,7 @@
     "upper": 5,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -92,6 +97,7 @@
     "upper": 5,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -108,6 +114,7 @@
     "upper": 6,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -124,6 +131,7 @@
     "upper": 6,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -140,6 +148,7 @@
     "upper": 7,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -156,6 +165,7 @@
     "upper": 7,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -172,6 +182,7 @@
     "upper": 8,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -188,6 +199,7 @@
     "upper": 8,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -204,6 +216,7 @@
     "upper": 9,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -220,6 +233,7 @@
     "upper": 9,
     "lower": 2,
     "ionisation": 0,
+    "prof2D": false,
     "multiplet": false,
     "multipletWvlngths": [
      0.0
@@ -236,6 +250,7 @@
     "upper": "2s2 2p1 4f1 3G13.0",
     "lower": "2s2 2p1 3d1 3F10.0",
     "ionisation": 1,
+    "prof2D": false,
     "stark": false,
     "multiplet": true,
     "multipletWvlngths": [
@@ -260,6 +275,7 @@
     "upper": "2s2 2p1 4f1 3G13.0",
     "lower": "2s2 2p1 3d1 3F10.0",
     "ionisation": 1,
+    "prof2D": false,
     "stark": false,
     "multiplet": true,
     "multipletWvlngths": [
@@ -284,6 +300,7 @@
     "upper": "2s2 2p1 3p1 1D2.0",
     "lower": "2s2 2p1 3s1 1P1.0",
     "ionisation": 1,
+    "prof2D": false,
     "stark": false,
     "multiplet": false,
     "multipletWvlngths": [
@@ -300,6 +317,7 @@
     "upper": "2s2 2p1 3p1 1D2.0",
     "lower": "2s2 2p1 3s1 1P1.0",
     "ionisation": 1,
+    "prof2D": false,
     "stark": false,
     "multiplet": false,
     "multipletWvlngths": [
@@ -316,6 +334,7 @@
     "upper": "1s2 2s2 5f1 2f6.5",
     "lower": "1s2 2s2 4d1 2d4.5",
     "ionisation": 2,
+    "prof2D": false,
     "multiplet": true,
     "multipletWvlngths": [
      399.863,
@@ -334,6 +353,7 @@
     "upper": "1s2 2s2 5f1 2f6.5",
     "lower": "1s2 2s2 4d1 2d4.5",
     "ionisation": 2,
+    "prof2D": false,
     "multiplet": true,
     "multipletWvlngths": [
      399.863,
@@ -352,6 +372,7 @@
     "upper": "1s2 2s2 3p1 2p2.5",
     "lower": "1s2 2s2 3s1 2s0.5",
     "ionisation": 2,
+    "prof2D": false,
     "multiplet": true,
     "multipletWvlngths": [
      409.733,
@@ -370,6 +391,7 @@
     "upper": "1s2 2s2 3p1 2p2.5",
     "lower": "1s2 2s2 3s1 2s0.5",
     "ionisation": 2,
+    "prof2D": false,
     "multiplet": true,
     "multipletWvlngths": [
      409.733,
@@ -388,6 +410,7 @@
     "upper": "2s2 2p1 4f1 1g4.0",
     "lower": "2s2 2p1 3d1 3f10.0",
     "ionisation": 1,
+    "prof2D": false,
     "multiplet": true,
     "multipletWvlngths": [
      402.609,
@@ -406,6 +429,7 @@
     "upper": "2s2 2p1 4f1 1g4.0",
     "lower": "2s2 2p1 3d1 3f10.0",
     "ionisation": 1,
+    "prof2D": false,
     "multiplet": true,
     "multipletWvlngths": [
      402.609,

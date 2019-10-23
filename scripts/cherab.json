@@ -511,7 +511,13 @@
   "power_pipeline": false,
   "radiance_pipeline": true,
   "los_profiles": true,  
-  "__comment-225344732264250526__": "!\n"
+  "fibre_choice": -1,
+  "__comment-225344732264250526__": "!\n",
+  "spectral_rays": 1,
+  "pixel_samples": 5,
+  "acceptance_angle": 1,
+  "radius": 0.01
+
  },
  "bolometry": {
   "__comment4224012704__": "!\n",

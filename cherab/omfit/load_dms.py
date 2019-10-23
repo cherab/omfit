@@ -12,46 +12,50 @@ def load_dms_output(config,world,plasma,spec,fibgeom):
     te_los = np.zeros((100,fibgeom.numfibres))
     ne_los = np.zeros((100,fibgeom.numfibres))
     d_los  = np.zeros((100,fibgeom.numfibres))
- 
-    for i, f in enumerate(power_arr):
-        print ("Analysing fibre: ",int(i+1))
-        fibgeom.set_fibre(number=int(i+1))        
+    if config['dms']['fibre_choice'] != -1:
+        fib = [config['dms']['fibre_choice']]
+    else:
+        fib = np.linspace(1,fibgeom.numfibres,num=fibgeom.numfibres)
+        
+    for i, f in enumerate(fib):
+        print ("Analysing fibre: ",int(f))
+        fibgeom.set_fibre(number=int(f))        
         start_point    = Point3D(fibgeom.origin[0],fibgeom.origin[1],fibgeom.origin[2])
         forward_vector = Vector3D(fibgeom.xhat(),fibgeom.yhat(),fibgeom.zhat()).normalise()
         up_vector      = Vector3D(0, 0, 1.0)
         if config['dms']['power_pipeline']:
             power          = PowerPipeline0D()
-            fibre  = FibreOptic([power], acceptance_angle=1, radius=0.001, spectral_bins=spec.pixels, spectral_rays=1,
-                                pixel_samples=5, transform=translate(*start_point)*rotate_basis(forward_vector, up_vector), parent=world)
+            fibre  = FibreOptic([spectra], acceptance_angle=config['dms']['acceptance_angle'], radius=config['dms']['radius'], spectral_bins=spec.pixels, spectral_rays=config['dms']['spectral_rays'],
+                                pixel_samples=config['dms']['pixel_samples'], transform=translate(*start_point)*rotate_basis(forward_vector, up_vector), parent=world)
             fibre.min_wavelength = spec.wlower
             fibre.max_wavelength = spec.wupper
             fibre.observe()
-            power_arr[i] = power.value.mean
+            power_arr[f] = power.value.mean
         else:
-            power_arr[i] = None
+            power_arr[f] = None
         if config['dms']['radiance_pipeline']:
             spectra = SpectralRadiancePipeline0D(display_progress=False)
-            fibre  = FibreOptic([spectra], acceptance_angle=1, radius=0.001, spectral_bins=spec.pixels, spectral_rays=1,
-                                pixel_samples=5, transform=translate(*start_point)*rotate_basis(forward_vector, up_vector), parent=world)
+            fibre  = FibreOptic([spectra], acceptance_angle=config['dms']['acceptance_angle'], radius=config['dms']['radius'], spectral_bins=spec.pixels, spectral_rays=config['dms']['spectral_rays'],
+                                pixel_samples=config['dms']['pixel_samples'], transform=translate(*start_point)*rotate_basis(forward_vector, up_vector), parent=world)
             fibre.min_wavelength = spec.wlower
             fibre.max_wavelength = spec.wupper
             fibre.observe()
-            spectra_arr[:,i] = spectra.samples.mean
+            spectra_arr[:,f] = spectra.samples.mean
         else:
-            spectra_arr[:,i] = None
+            spectra_arr[:,f] = None
         if config['dms']['los_profiles']:
             dist_var = np.linspace(0, fibgeom.fibre_distance_world(world), num=100, dtype=float)
             for j,t in enumerate(dist_var):
                 x = start_point.x + fibgeom.xhat() * t
                 y = start_point.y + fibgeom.yhat() * t
                 z = start_point.z + fibgeom.zhat() * t
-                te_los[j,i] = plasma.electron_distribution.effective_temperature(x,y,z)
-                ne_los[j,i] = plasma.electron_distribution.density(x,y,z)
-                d_los[j,i]  = t
+                te_los[j,f] = plasma.electron_distribution.effective_temperature(x,y,z)
+                ne_los[j,f] = plasma.electron_distribution.density(x,y,z)
+                d_los[j,f]  = t
         else:
-            d_los[:,i]  = None
-            te_los[:,i] = None
-            ne_los[:,i] = None
+            d_los[:,f]  = None
+            te_los[:,f] = None
+            ne_los[:,f] = None
 
     return power_arr,spectra_arr,te_los,ne_los,d_los
 

@@ -27,7 +27,7 @@ _EMISSION_TYPE_LOOKUP = {
 }
 
 
-def load_emission(config, plasma, n1_density,emiss2d, xr, yr):
+def load_emission(config, plasma, n_density, emiss2d, xr, yr):
 
     models   = []
     tmpmodel = []
@@ -88,7 +88,9 @@ def load_emission(config, plasma, n1_density,emiss2d, xr, yr):
     plasma.models = models
 
     n1 = plasma.composition.get(nitrogen, 1)
+    n2 = plasma.composition.get(nitrogen, 2)
 
     for i, x in enumerate(xr):
         for j, y in enumerate(yr):
-            n1_density[j, i] = n1.distribution.density(x, 0.0, y)
+            n_density[j, i, 1] = n1.distribution.density(x, 0.0, y)
+            n_density[j, i, 2] = n2.distribution.density(x, 0.0, y)

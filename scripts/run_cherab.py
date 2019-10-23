@@ -31,6 +31,7 @@ class dms:
             self.spectra=None
             self.te_los=None
             self.ne_los=None
+            self.nN_los=None
             self.d_los=None
             self.spec = None
             self.fibres=None
@@ -43,7 +44,7 @@ class dms:
         # Load diagnostic settings
         self.spec = load_dms_spectrometer(self.config)
         # Simulate synthetic measurement
-        self.power,self.spectra,self.te_los,self.ne_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres)        
+        self.power,self.spectra,self.te_los,self.ne_los,self.nN_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres)        
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
@@ -51,6 +52,7 @@ class dms:
         # Geometry details
         dmsgroup = dataset.createGroup("DMS")
 
+        Nions   = dmsgroup.createDimension('Nions',8)
         nFibres = dmsgroup.createDimension('nFibres',self.fibres.numfibres)
         Fibres  = dmsgroup.createVariable('nFibres',np.float32,('nFibres'))
 
@@ -84,7 +86,7 @@ class dms:
         power[:]           = self.power
         Wavelength_arr[:]  = self.spec.wlngth
 
-        LoS          = dmsgroup.createDimension('LoS',100)
+        LoS          = dmsgroup.createDimension('LoS',500)
 
         te_los       = dmsgroup.createVariable('LoS_Te',np.float32,('LoS','nFibres'))
         te_los.label = 'Line-of-sight Te'
@@ -93,6 +95,10 @@ class dms:
         ne_los       = dmsgroup.createVariable('LoS_ne',np.float32,('LoS','nFibres'))
         ne_los.label = 'Line-of-sight ne'
         ne_los.units = 'm-3'
+
+        nN_los       = dmsgroup.createVariable('LoS_nN',np.float32,('LoS','nFibres','Nions'))
+        nN_los.label = 'Line-of-sight nN'
+        nN_los.units = 'm-3'
 
         d_los       = dmsgroup.createVariable('LoS_dist',np.float32,('LoS','nFibres'))
         d_los.label = 'Line-of-sight distance'
@@ -106,6 +112,7 @@ class dms:
             spectra[:,i] = self.spectra[:,i]
             te_los[:,i]  = self.te_los[:,i]
             ne_los[:,i]  = self.ne_los[:,i]
+            nN_los[:,i,:]= self.nN_los[:,i,:]
             d_los[:,i]   = self.d_los[:,i]
            
         dataset.close()
@@ -151,8 +158,8 @@ class simulation:
         self.num        = 500
         self.te_plasma  = np.zeros((self.num, self.num))
         self.ne_plasma  = np.zeros((self.num, self.num))
-        self.emiss2d   = np.zeros((self.num, self.num))
-        self.n1_density = np.zeros((self.num, self.num))
+        self.emiss2d    = np.zeros((self.num, self.num))
+        self.n_density  = np.zeros((self.num, self.num, 8))
         Rrange          = np.array(config['plasma']['edge']['Rrange'])
         Zrange          = np.array(config['plasma']['edge']['Zrange'])
         self.xrange     = np.linspace(Rrange[0],Rrange[1], self.num)
@@ -164,7 +171,7 @@ class simulation:
             # Load the edge plasma solution if present	  
             self.plasma, self.mesh = load_edge_simulation(self.config, self.world)
             # Load all the emission line models
-            load_emission(self.config, self.plasma, self.n1_density, self.emiss2d, self.xrange, self.yrange)
+            load_emission(self.config, self.plasma, self.n_density, self.emiss2d, self.xrange, self.yrange)
             # Get electron temperature and density of 2D profile
             for i, x in enumerate(self.xrange):
                 for j, y in enumerate(self.yrange):
@@ -210,6 +217,7 @@ class simulation:
      
         # Plasma details
         plasmagroup     = dataset.createGroup("plasma")
+        Nions           = plasmagroup.createDimension('Nions',8)
         nDistributionX  = plasmagroup.createDimension('nDistributionX',self.num)
         nDistributionsX = plasmagroup.createVariable('nDistributionX',np.float32,('nDistributionX'))
 
@@ -235,20 +243,20 @@ class simulation:
         emiss.label='Plasma emission'
         emiss.units='ph/m-3/s'
 
-        NN = plasmagroup.createVariable('NN',np.float32,('nDistributionX','nDistributionY'))
-        NN.label='Plasma N1+ density'
-        NN.units='m-3'
+        nN = plasmagroup.createVariable('nN',np.float32,('nDistributionX','nDistributionY','Nions'))
+        nN.label='Plasma N ion density'
+        nN.units='m-3'
         if self.xrange is not None:
             for i, x in enumerate(self.xrange):
                     Te[i,:]=self.te_plasma[i,:]
                     Ne[i,:]=self.ne_plasma[i,:]
                     emiss[i,:]=self.emiss2d[i,:]
-                    NN[i,:]=self.n1_density[i,:]
+                    nN[i,:,:]=self.n_density[i,:,:]
         else:
-            Te[:,:]  = self.te_plasma
-            Ne[:,:]  = self.ne_plasma
+            Te[:,:]    = self.te_plasma
+            Ne[:,:]    = self.ne_plasma
             emiss[:,:] = self.emiss2d
-            NN [:,:] = self.n1_density
+            nN [:,:,:] = self.n_density
 
         dataset.close()
   

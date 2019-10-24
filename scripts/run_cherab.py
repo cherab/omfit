@@ -27,6 +27,7 @@ class dms:
             self.world = world
             self.config = config
             self.plasma = plasma
+            self.Nlos=100
             self.power = None
             self.spectra=None
             self.te_los=None
@@ -44,7 +45,7 @@ class dms:
         # Load diagnostic settings
         self.spec = load_dms_spectrometer(self.config)
         # Simulate synthetic measurement
-        self.power,self.spectra,self.te_los,self.ne_los,self.nN_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres)        
+        self.power,self.spectra,self.te_los,self.ne_los,self.nN_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres, self.Nlos)        
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
@@ -86,7 +87,7 @@ class dms:
         power[:]           = self.power
         Wavelength_arr[:]  = self.spec.wlngth
 
-        LoS          = dmsgroup.createDimension('LoS',500)
+        LoS          = dmsgroup.createDimension('LoS',self.Nlos)
 
         te_los       = dmsgroup.createVariable('LoS_Te',np.float32,('LoS','nFibres'))
         te_los.label = 'Line-of-sight Te'

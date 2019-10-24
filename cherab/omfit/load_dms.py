@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def load_dms_output(config,world,plasma,spec,fibgeom):
+def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
     from cherab.core.atomic.elements import hydrogen, deuterium, carbon, helium, nitrogen, neon, argon, krypton, xenon
     from raysect.optical.observer import FibreOptic, PowerPipeline0D, SpectralRadiancePipeline0D
     from raysect.optical import translate, rotate, rotate_basis
@@ -10,7 +10,6 @@ def load_dms_output(config,world,plasma,spec,fibgeom):
 
     power_arr = np.zeros(fibgeom.numfibres)
     spectra_arr = np.zeros((spec.pixels,fibgeom.numfibres))
-    numlos = 500
     te_los = np.zeros((numlos,fibgeom.numfibres))
     ne_los = np.zeros((numlos,fibgeom.numfibres))
     d_los  = np.zeros((numlos,fibgeom.numfibres))

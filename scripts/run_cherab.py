@@ -235,7 +235,7 @@ class simulation:
             Ne.label='Plasma ne'
             Ne.units='m-3'
             for i, x in enumerate(self.xrange):
-                Ne[i,:]=self.te_plasma[i,:]
+                Ne[i,:]=self.ne_plasma[i,:]
 
         if self.config['plasma']['edge']['ni2D']:                     
             Ni = plasmagroup.createVariable('Ni',np.float32,('nDistributionX','nDistributionY'))

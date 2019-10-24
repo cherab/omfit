@@ -149,7 +149,7 @@ class camera:
         dataset.close()
 class simulation:
     """
-    Filtered camera details
+    Plasma simulation details
     """
     def __init__(self,world=None,config=None):
         self.plasma     = None
@@ -157,10 +157,6 @@ class simulation:
         self.world      = world
         self.config     = config
         self.num        = 500
-        self.te_plasma  = np.zeros((self.num, self.num))
-        self.ne_plasma  = np.zeros((self.num, self.num))
-        self.emiss2d    = np.zeros((self.num, self.num))
-        self.n_density  = np.zeros((self.num, self.num, 8))
         Rrange          = np.array(config['plasma']['edge']['Rrange'])
         Zrange          = np.array(config['plasma']['edge']['Zrange'])
         self.xrange     = np.linspace(Rrange[0],Rrange[1], self.num)
@@ -168,17 +164,13 @@ class simulation:
 
     def load(self):
         if self.config['plasma']['edge']['present']:
-            from cherab.omfit import load_emission, load_edge_simulation
+            from cherab.omfit import load_emission, load_edge_simulation, load_profiles
             # Load the edge plasma solution if present	  
             self.plasma, self.mesh = load_edge_simulation(self.config, self.world)
-            # Load all the emission line models
-            load_emission(self.config, self.plasma, self.n_density, self.emiss2d, self.xrange, self.yrange)
-            # Get electron temperature and density of 2D profile
-            for i, x in enumerate(self.xrange):
-                for j, y in enumerate(self.yrange):
-                    val = self.plasma.electron_distribution.effective_temperature(x, 0.0, y)
-                    self.te_plasma[j, i]  = clamp(val,0,50.0)
-                    self.ne_plasma[j, i]  = self.plasma.electron_distribution.density(x, 0.0, y)            
+            # Load all the emission line models and emission profiles
+            self.em_plasma = load_emission(self.config, self.plasma, self.xrange, self.yrange, self.num)
+            # Get profile data
+            self.te_plasma, self.ne_plasma, self.ni_plasma, self.nz_plasma = load_profiles(self.config, self.plasma, self.xrange, self.yrange, self.num)
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
@@ -218,7 +210,6 @@ class simulation:
      
         # Plasma details
         plasmagroup     = dataset.createGroup("plasma")
-        Nions           = plasmagroup.createDimension('Nions',8)
         nDistributionX  = plasmagroup.createDimension('nDistributionX',self.num)
         nDistributionsX = plasmagroup.createVariable('nDistributionX',np.float32,('nDistributionX'))
 
@@ -231,33 +222,42 @@ class simulation:
         nDistributionsY[:] = self.yrange
         nDistributionsY.units = 'm'
         nDistributionsY.label = 'Plasma height'
-                
-        Te = plasmagroup.createVariable('Te',np.float32,('nDistributionX','nDistributionY'))
-        Te.label='Plasma Te'
-        Te.units='eV'
 
-        Ne = plasmagroup.createVariable('Ne',np.float32,('nDistributionX','nDistributionY'))
-        Ne.label='Plasma ne'
-        Ne.units='m-3'
-
-        emiss = plasmagroup.createVariable('emiss',np.float32,('nDistributionX','nDistributionY'))
-        emiss.label='Plasma emission'
-        emiss.units='ph/m-3/s'
-
-        nN = plasmagroup.createVariable('nN',np.float32,('nDistributionX','nDistributionY','Nions'))
-        nN.label='Plasma N ion density'
-        nN.units='m-3'
-        if self.xrange is not None:
+        if self.config['plasma']['edge']['Te2D']:              
+            Te = plasmagroup.createVariable('Te',np.float32,('nDistributionX','nDistributionY'))
+            Te.label='Plasma Te'
+            Te.units='eV'            
             for i, x in enumerate(self.xrange):
-                    Te[i,:]=self.te_plasma[i,:]
-                    Ne[i,:]=self.ne_plasma[i,:]
-                    emiss[i,:]=self.emiss2d[i,:]
-                    nN[i,:,:]=self.n_density[i,:,:]
-        else:
-            Te[:,:]    = self.te_plasma
-            Ne[:,:]    = self.ne_plasma
-            emiss[:,:] = self.emiss2d
-            nN [:,:,:] = self.n_density
+                Te[i,:]=self.te_plasma[i,:]
+
+        if self.config['plasma']['edge']['ne2D']:                     
+            Ne = plasmagroup.createVariable('Ne',np.float32,('nDistributionX','nDistributionY'))
+            Ne.label='Plasma ne'
+            Ne.units='m-3'
+            for i, x in enumerate(self.xrange):
+                Ne[i,:]=self.te_plasma[i,:]
+
+        if self.config['plasma']['edge']['ni2D']:                     
+            Ni = plasmagroup.createVariable('Ni',np.float32,('nDistributionX','nDistributionY'))
+            Ni.label='Plasma ni'
+            Ni.units='m-3'
+            for i, x in enumerate(self.xrange):
+                Ni[i,:]=self.ni_plasma[i,:]
+
+        if self.config['plasma']['edge']['em2D']:                     
+            emiss = plasmagroup.createVariable('emiss',np.float32,('nDistributionX','nDistributionY'))
+            emiss.label='Plasma emission'
+            emiss.units='ph/m-3/s'
+            for i, x in enumerate(self.xrange):
+                    emiss[i,:]=self.em_plasma[i,:]
+
+        if self.config['plasma']['edge']['nz2D']:                     
+            Nions= plasmagroup.createDimension('Nions',self.nz_plasma.shape[2])
+            Nz = plasmagroup.createVariable('Nz',np.float32,('nDistributionX','nDistributionY','Nions'))
+            Nz.label='Plasma impurity density'
+            Nz.units='m-3'
+            for i, x in enumerate(self.xrange):
+                Nz[i,:,:]=self.nz_plasma[i,:,:]
 
         dataset.close()
   

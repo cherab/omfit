@@ -234,11 +234,12 @@ class simulation:
         for i, x in enumerate(self.xrange):
             ne[i,:]=self.ne_plasma[i,:]
 
-        ni = plasmagroup.createVariable('ni',np.float32,('nDistributionX','nDistributionY'))
+        ND = plasmagroup.createDimension('ND',2)
+        ni = plasmagroup.createVariable('ni',np.float32,('nDistributionX','nDistributionY','ND'))
         ni.label='Plasma ni'
         ni.units='m-3'
         for i, x in enumerate(self.xrange):
-            ni[i,:]=self.ni_plasma[i,:]
+            ni[i,:,:]=self.ni_plasma[i,:,:]
 
         emiss = plasmagroup.createVariable('emiss',np.float32,('nDistributionX','nDistributionY'))
         emiss.label='Plasma emission'

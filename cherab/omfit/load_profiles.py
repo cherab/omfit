@@ -16,7 +16,7 @@ def load_profiles(config, plasma, xr, yr, num):
 
     te_plasma = np.zeros((num,num))
     ne_plasma = np.zeros((num,num))
-    ni_plasma = np.zeros((num,num))
+    ni_plasma = np.zeros((num,num,2))
 
     if config['plasma']['edge']['Te2D']:
         for i, x in enumerate(xr):
@@ -29,9 +29,14 @@ def load_profiles(config, plasma, xr, yr, num):
                 ne_plasma[j, i]  = plasma.electron_distribution.density(x, 0.0, y)
 
     if config['plasma']['edge']['ni2D']:
+
+        ni_plasma = np.zeros((num,num,2))
+
         for i, x in enumerate(xr):
             for j, y in enumerate(yr):
-                ni_plasma[j, i]  = plasma.ion_density(x, 0.0, y)
+                for k in range(2):
+                    composition = plasma.composition.get(deuterium, k)
+                    ni_plasma[j, i, k] = composition.distribution.density(x, 0.0, y)
 
     if config['plasma']['edge']['nz2D']:
             try:

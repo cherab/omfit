@@ -24,6 +24,7 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
     spectra_arr = np.zeros((spec.pixels,fibgeom.numfibres))
     te_los = np.zeros((numlos,fibgeom.numfibres))
     ne_los = np.zeros((numlos,fibgeom.numfibres))
+    ni_los = np.zeros((numlos,fibgeom.numfibres,2))
     d_los  = np.zeros((numlos,fibgeom.numfibres))
     if config['plasma']['edge']['nz2D']:
         try:
@@ -75,22 +76,26 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
                     for k,zeff in enumerate(ions):
                         composition = plasma.composition.get(species, k)
                         nz_los[j, arridx, k]  = composition.distribution.density(x, y, z)
+                if config['plasma']['edge']['ni2D']:
+                    for k in range(2):
+                        composition = plasma.composition.get(deuterium, k)
+                        ni_los[j, arridx, k]  = composition.distribution.density(x, y, z)
                 if config['plasma']['edge']['Te2D']:
                     te_los[j,arridx] = plasma.electron_distribution.effective_temperature(x,y,z)
                 if config['plasma']['edge']['ne2D']:
                     ne_los[j,arridx] = plasma.electron_distribution.density(x,y,z)
                 d_los[j,arridx]  = t
 
-    return power_arr,spectra_arr,te_los,ne_los,nz_los,d_los
+    return power_arr,spectra_arr,te_los,ne_los,ni_los,nz_los,d_los
 
 def load_dms_spectrometer(config):
-    from cherab.mastu.div_spectrometer import spectrometer  
+    from cherab.aug.div_spectrometer import spectrometer  
     spec=spectrometer()
     spec.set_range(setting=config['dms']['spectrometer']) 
     return spec	
 
 def load_dms_fibres(config):
-    from cherab.mastu.div_spectrometer import fibres
+    from cherab.aug.div_spectrometer import fibres
     fibgeom = fibres()
     fibgeom.set_bundle(group=config['dms']['fibres'])
     return fibgeom

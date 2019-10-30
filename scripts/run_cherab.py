@@ -32,6 +32,7 @@ class dms:
             self.spectra=None
             self.te_los=None
             self.ne_los=None
+            self.ni_los=None
             self.nz_los=None
             self.d_los=None
             self.spec = None
@@ -45,7 +46,7 @@ class dms:
         # Load diagnostic settings
         self.spec = load_dms_spectrometer(self.config)
         # Simulate synthetic measurement
-        self.power,self.spectra,self.te_los,self.ne_los,self.nz_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres, self.Nlos)        
+        self.power,self.spectra,self.te_los,self.ne_los,self.ni_los,self.nz_los,self.d_los = load_dms_output(self.config, self.world, self.plasma, self.spec, self.fibres, self.Nlos)        
 
     def write_cdf(self,ncfile='cherab.nc'):            
         # Output netCDF file
@@ -97,8 +98,13 @@ class dms:
 
         Nions        = dmsgroup.createDimension('Nions',self.nz_los.shape[2])
         nz_los       = dmsgroup.createVariable('LoS_nz',np.float32,('LoS','nFibres','Nions'))
-        nz_los.label = 'Line-of-sight nN'
+        nz_los.label = 'Line-of-sight nz'
         nz_los.units = 'm-3'
+
+        Nd        = dmsgroup.createDimension('Nd',2)
+        ni_los       = dmsgroup.createVariable('LoS_ni',np.float32,('LoS','nFibres','Nd'))
+        ni_los.label = 'Line-of-sight ni'
+        ni_los.units = 'm-3'
 
         d_los       = dmsgroup.createVariable('LoS_dist',np.float32,('LoS','nFibres'))
         d_los.label = 'Line-of-sight distance'
@@ -112,6 +118,7 @@ class dms:
             spectra[:,i] = self.spectra[:,i]
             te_los[:,i]  = self.te_los[:,i]
             ne_los[:,i]  = self.ne_los[:,i]
+            ni_los[:,i,:]= self.ni_los[:,i,:]
             nz_los[:,i,:]= self.nz_los[:,i,:]
             d_los[:,i]   = self.d_los[:,i]
            

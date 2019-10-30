@@ -1,5 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from cherab.core.atomic.elements import hydrogen, deuterium, carbon, helium, nitrogen, neon, argon, krypton, xenon
+_SPECIES_LOOKUP = {
+    "hydrogen": hydrogen,
+    "deuterium": deuterium,
+    "carbon": carbon,
+    'helium': helium,
+    'nitrogen': nitrogen,
+    'neon': neon,
+    'argon': argon,
+    'krypton': krypton,
+    'xenon': xenon,
+}
 
 def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
     from cherab.core.atomic.elements import hydrogen, deuterium, carbon, helium, nitrogen, neon, argon, krypton, xenon
@@ -13,7 +25,16 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
     te_los = np.zeros((numlos,fibgeom.numfibres))
     ne_los = np.zeros((numlos,fibgeom.numfibres))
     d_los  = np.zeros((numlos,fibgeom.numfibres))
-    nN_los = np.zeros((numlos,fibgeom.numfibres,8))
+    if config['plasma']['edge']['nz2D']:
+        try:
+            species = _SPECIES_LOOKUP[config["plasma"]['edge']["nz2D_species"]]
+        except KeyError:
+            raise ValueError("The species emission specification for this config file is invalid.")
+        nz_los = np.zeros((numlos,fibgeom.numfibres,species.atomic_number+1))
+        ions = np.linspace(0,species.atomic_number,num=species.atomic_number+1)  
+    else:
+        nz_los=np.zeros((numlos,fibgeom.numfibres,1))
+
     if config['dms']['fibre_choice'] != -1:
         fib = [config['dms']['fibre_choice']]
     else:
@@ -45,32 +66,22 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
             spectra_arr[:,arridx] = spectra.samples.mean
 
         if config['dms']['los_profiles']:
-            n0 = plasma.composition.get(nitrogen, 0)
-            n1 = plasma.composition.get(nitrogen, 1)
-            n2 = plasma.composition.get(nitrogen, 2)
-            n3 = plasma.composition.get(nitrogen, 3)
-            n4 = plasma.composition.get(nitrogen, 4)
-            n5 = plasma.composition.get(nitrogen, 5)
-            n6 = plasma.composition.get(nitrogen, 6)
-            n7 = plasma.composition.get(nitrogen, 7)
             dist_var = np.linspace(0, fibgeom.fibre_distance_world(world), num=numlos, dtype=float)
             for j,t in enumerate(dist_var):
                 x = start_point.x + fibgeom.xhat() * t
                 y = start_point.y + fibgeom.yhat() * t
                 z = start_point.z + fibgeom.zhat() * t
-                te_los[j,arridx] = plasma.electron_distribution.effective_temperature(x,y,z)
-                ne_los[j,arridx] = plasma.electron_distribution.density(x,y,z)
-                nN_los[j,arridx,0] = n0.distribution.density(x, y, z)
-                nN_los[j,arridx,1] = n1.distribution.density(x, y, z)
-                nN_los[j,arridx,2] = n2.distribution.density(x, y, z)
-                nN_los[j,arridx,3] = n3.distribution.density(x, y, z)
-                nN_los[j,arridx,4] = n4.distribution.density(x, y, z)
-                nN_los[j,arridx,5] = n5.distribution.density(x, y, z)
-                nN_los[j,arridx,6] = n6.distribution.density(x, y, z)
-                nN_los[j,arridx,7] = n7.distribution.density(x, y, z)
+                if config['plasma']['edge']['nz2D']:
+                    for k,zeff in enumerate(ions):
+                        composition = plasma.composition.get(species, k)
+                        nz_los[j, arridx, k]  = composition.distribution.density(x, y, z)
+                if config['plasma']['edge']['Te2D']:
+                    te_los[j,arridx] = plasma.electron_distribution.effective_temperature(x,y,z)
+                if config['plasma']['edge']['ne2D']:
+                    ne_los[j,arridx] = plasma.electron_distribution.density(x,y,z)
                 d_los[j,arridx]  = t
 
-    return power_arr,spectra_arr,te_los,ne_los,nN_los,d_los
+    return power_arr,spectra_arr,te_los,ne_los,nz_los,d_los
 
 def load_dms_spectrometer(config):
     from cherab.mastu.div_spectrometer import spectrometer  

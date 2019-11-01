@@ -89,13 +89,13 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
     return power_arr,spectra_arr,te_los,ne_los,ni_los,nz_los,d_los
 
 def load_dms_spectrometer(config):
-    from cherab.aug.div_spectrometer import spectrometer  
+    from cherab.mastu.div_spectrometer import spectrometer  
     spec=spectrometer()
     spec.set_range(setting=config['dms']['spectrometer']) 
     return spec	
 
 def load_dms_fibres(config):
-    from cherab.aug.div_spectrometer import fibres
+    from cherab.mastu.div_spectrometer import fibres
     fibgeom = fibres()
     fibgeom.set_bundle(group=config['dms']['fibres'])
     return fibgeom

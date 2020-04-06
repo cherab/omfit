@@ -50,7 +50,7 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
         up_vector      = Vector3D(1.0, 1.0, 1.0)
         if config['dms']['power_pipeline']:
             power          = PowerPipeline0D()
-            fibre  = FibreOptic([spectra], acceptance_angle=config['dms']['acceptance_angle'], radius=config['dms']['radius'], spectral_bins=spec.pixels, spectral_rays=config['dms']['spectral_rays'],
+            fibre  = FibreOptic([power], acceptance_angle=config['dms']['acceptance_angle'], radius=config['dms']['radius'], spectral_bins=spec.pixels, spectral_rays=config['dms']['spectral_rays'],
                                 pixel_samples=config['dms']['pixel_samples'], transform=translate(*start_point)*rotate_basis(forward_vector, up_vector), parent=world)
             fibre.min_wavelength = spec.wlower
             fibre.max_wavelength = spec.wupper

@@ -88,14 +88,51 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
 
     return power_arr,spectra_arr,te_los,ne_los,ni_los,nz_los,d_los
 
+mastu=['MASTU', 'MAST-U', 'MAST-Upgrade', 'mastu', 'mast-u']
+asdex=['AUG', 'ASDEX', 'ASDEX-Upgrade', 'aug', 'asdex']
+tcv=['TCV', 'tcv']
+jet=['JET', 'jet']
+
+devices=[mastu, asdex, tcv, jet]
+
+from numpy import where
+
+def get_device(config):
+    # first check that the device exists
+    device=config['machine']['name']
+    device_check=[device in d for d in devices]
+    if not any([device in d for d in devices]):
+	raise ValueError("{} not an availible devices!".format(device)))
+    # get the correct device
+    device_index=where(device_check)
+    try:
+	if device_index==0: # mast-u
+	    import cherab.mastu as device_module
+	if device_index==1: # asdex
+	    import cherab.aug as device_module
+	if device_index==2: # tcv
+	    import cherab.tcv as device_module
+	if device_index==3: # jet
+	    import cherab.jet as device_module
+    except ImportError:
+	ImportError("Cherab model for {} does not exist".format(device))
+    # return the modul if found
+    return device_module
+
 def load_dms_spectrometer(config):
-    from cherab.mastu.div_spectrometer import spectrometer  
+    # get the correct device module
+    device_module=get_device(config)
+    # import, instanciate and return spectrometer
+    from device_module.div_spectrometer import spectrometer  
     spec=spectrometer()
     spec.set_range(setting=config['dms']['spectrometer']) 
     return spec	
 
 def load_dms_fibres(config):
-    from cherab.mastu.div_spectrometer import fibres
+    # get the correct device module
+    device_module=get_device(config)
+    # import, instanciate and return fibres
+    from device_module.div_spectrometer import fibres
     fibgeom = fibres()
     fibgeom.set_bundle(group=config['dms']['fibres'])
     return fibgeom

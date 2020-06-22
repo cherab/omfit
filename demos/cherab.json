@@ -1,0 +1,671 @@
+{
+ "HEADER": {
+  "__comment6046930561178607146__": "\n! -------------------------------------------------\n! CHERAB namelist template file created by OMFIT\n!\n\n"
+ },
+ "plasma": {
+  "__comment4224012704__": "!\n",
+  "__comment1963243973159898146__": "! specify equilibrium type\n",
+  "equilibrium_type": null,
+  "__comment-225344732264250526__": "!\n",
+  "emission_instructions": [
+   {
+    "upper": 3,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "ionisation": 0,
+    "prof2D": false,
+    "wavelength": 0.0,
+    "multiplet": false,
+    "species": "deuterium",
+    "lower": 2,
+    "stark": true,
+    "multipletRatios": [
+     1
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": 3,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "ionisation": 0,
+    "prof2D": false,
+    "wavelength": 0.0,
+    "multiplet": false,
+    "species": "deuterium",
+    "lower": 2,
+    "stark": true,
+    "multipletRatios": [
+     1
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": 4,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 4,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 5,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 5,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 6,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 6,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 7,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 7,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 8,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 8,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 9,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "ExcitationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": 9,
+    "lower": 2,
+    "ionisation": 0,
+    "prof2D": false,
+    "multiplet": false,
+    "multipletWvlngths": [
+     0.0
+    ],
+    "wavelength": 0.0,
+    "type": "RecombinationLine",
+    "species": "deuterium",
+    "stark": true,
+    "multipletRatios": [
+     0.0
+    ]
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 3G13.0",
+    "multipletWvlngths": [
+     403.509,
+     404.132,
+     404.354,
+     404.479,
+     405.692
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 404.1,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3F10.0",
+    "stark": false,
+    "type": "ExcitationLine",
+    "multipletRatios": [
+     0.205,
+     0.562,
+     0.175,
+     0.029,
+     0.029
+    ]
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 3G13.0",
+    "multipletWvlngths": [
+     403.509,
+     404.132,
+     404.354,
+     404.479,
+     405.692
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 404.1,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3F10.0",
+    "stark": false,
+    "multipletRatios": [
+     0.205,
+     0.562,
+     0.175,
+     0.029,
+     0.029
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 3p1 1D2.0",
+    "multipletWvlngths": [
+     399.5
+    ],
+    "ionisation": 1,
+    "prof2D": true,
+    "wavelength": 399.5,
+    "multiplet": false,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3s1 1P1.0",
+    "stark": false,
+    "multipletRatios": [
+     1
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 3p1 1D2.0",
+    "multipletWvlngths": [
+     399.5
+    ],
+    "ionisation": 1,
+    "prof2D": true,
+    "wavelength": 399.5,
+    "multiplet": false,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3s1 1P1.0",
+    "stark": false,
+    "multipletRatios": [
+     1
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 1g4.0",
+    "multipletWvlngths": [
+     402.609,
+     403.935
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 402.69,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3f10.0",
+    "stark": false,
+    "multipletRatios": [
+     0.944,
+     0.056
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 1g4.0",
+    "multipletWvlngths": [
+     402.609,
+     403.935
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 402.69,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3f10.0",
+    "stark": false,
+    "multipletRatios": [
+     0.944,
+     0.056
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s2 5f1 2f6.5",
+    "multipletWvlngths": [
+     399.863,
+     400.358
+    ],
+    "ionisation": 2,
+    "prof2D": false,
+    "wavelength": 400.358,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 4d1 2d4.5",
+    "stark": false,
+    "multipletRatios": [
+     0.375,
+     0.625
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s2 5f1 2f6.5",
+    "multipletWvlngths": [
+     399.863,
+     400.358
+    ],
+    "ionisation": 2,
+    "prof2D": false,
+    "wavelength": 400.358,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 4d1 2d4.5",
+    "stark": false,
+    "multipletRatios": [
+     0.375,
+     0.625
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s2 3p1 2p2.5",
+    "multipletWvlngths": [
+     409.733,
+     410.343
+    ],
+    "ionisation": 2,
+    "prof2D": false,
+    "wavelength": 410.0,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 3s1 2s0.5",
+    "stark": false,
+    "multipletRatios": [
+     0.667,
+     0.333
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s2 3p1 2p2.5",
+    "multipletWvlngths": [
+     409.733,
+     410.343
+    ],
+    "ionisation": 2,
+    "prof2D": false,
+    "wavelength": 410.0,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 3s1 2s0.5",
+    "stark": false,
+    "multipletRatios": [
+     0.667,
+     0.333
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 3F10.0",
+    "multipletWvlngths": [
+     407.307,
+     407.697,
+     408.227,
+     409.597
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 408.8,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3F10.0",
+    "stark": false,
+    "multipletRatios": [
+     0.387,
+     0.1471,
+     0.329,
+     0.1369
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 3F10.0",
+    "multipletWvlngths": [
+     407.307,
+     407.697,
+     408.227,
+     409.597
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 408.8,
+    "multiplet": true,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3F10.0",
+    "stark": false,
+    "multipletRatios": [
+     0.387,
+     0.1471,
+     0.329,
+     0.1369
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 1F3.0",
+    "multipletWvlngths": [
+     408.733
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 408.733,
+    "multiplet": false,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3F10.0",
+    "stark": false,
+    "multipletRatios": [
+     1
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s2 2p1 4f1 1F3.0",
+    "multipletWvlngths": [
+     408.733
+    ],
+    "ionisation": 1,
+    "prof2D": false,
+    "wavelength": 408.733,
+    "multiplet": false,
+    "species": "nitrogen",
+    "lower": "1s2 2s2 2p1 3d1 3F10.0",
+    "stark": false,
+    "multipletRatios": [
+     1
+    ],
+    "type": "RecombinationLine"
+   },
+   {
+    "upper": "1s2 2s1 3d1 1D2.0",
+    "multipletWvlngths": [
+     405.776
+    ],
+    "ionisation": 3,
+    "prof2D": false,
+    "wavelength": 405.776,
+    "multiplet": false,
+    "species": "nitrogen",
+    "lower": "1s2 2s1 3p1 1P1.0",
+    "stark": false,
+    "multipletRatios": [
+     1
+    ],
+    "type": "ExcitationLine"
+   },
+   {
+    "upper": "1s2 2s1 3d1 1D2.0",
+    "multipletWvlngths": [
+     405.776
+    ],
+    "ionisation": 3,
+    "prof2D": false,
+    "wavelength": 405.776,
+    "multiplet": false,
+    "species": "nitrogen",
+    "lower": "1s2 2s1 3p1 1P1.0",
+    "stark": false,
+    "multipletRatios": [
+     1
+    ],
+    "type": "RecombinationLine"
+   }
+  ],
+  "installADF15": false,
+  "adf15": [
+   {
+    "ionisation": 1,
+    "file_path": "adf15/pec16#7/cherab#n1.dat",
+    "adas_path": "/home/shenders/adas/adas/",
+    "species": "nitrogen"
+   },
+   {
+    "ionisation": 2,
+    "file_path": "adf15/pec16#7/cherab#n2.dat",
+    "adas_path": "/home/shenders/adas/adas/",
+    "species": "nitrogen"
+   },
+   {
+    "ionisation": 3,
+    "file_path": "adf15/pec16#7/cherab#n3.dat",
+    "adas_path": "/home/shenders/adas/adas/",
+    "species": "nitrogen"
+   }
+  ],
+  "edge": {
+   "__comment-2177199680269845130__": "!    o Specify SOLPS details\n",
+   "present": true,
+   "type": "SOLPS",
+   "SOLPS_format": "MDSplus",
+   "mds_server": "solps-mdsplus.aug.ipp.mpg.de:8001",
+   "mds_solps_reference": 121853,
+   "Rrange": [
+    0,
+    2.0
+   ],
+   "Zrange": [
+    -2.0,
+    0
+   ],
+   "mesh": true,
+   "Te2D": true,
+   "ne2D": true,
+   "em2D": true,
+   "ni2D": true,
+   "nz2D": true,
+   "nz2D_species": "nitrogen",
+   "zf2D": true
+  },
+  "core": {
+   "__comment-7634578443956683666__": "!    o Specify TRANSP details\n",
+   "present": false,
+   "type": "TRANSP",
+   "TRANSP_format": "netcdf",
+   "shot": 29424,
+   "runid": "Z01"
+  },
+  "bremsstrahlung": true,
+  "species": "nitrogen",
+  "ionisation": 2,
+  "adas_path": "/home/shenders/adas/adas/",
+  "adas_file": "adf15/pec16#7/cherab#n2.dat"
+ },
+ "machine": {
+  "__comment4224012704__": "!\n",
+  "__comment-8798226269957877891__": "! specify tokamak\n",
+  "name": "MAST-U",
+  "__comment-5902058675352609970__": "! specify if reflecting model should be loaded\n",
+  "reflecting": true,
+  "__comment-225344732264250526__": "!\n"
+ },
+ "observer": {
+  "__comment4224012704__": "!\n",
+  "__comment-1155473421964088967__": "! specify diagnostic settings\n",
+  "simulate": false,
+  "type": "filtered_camera",
+  "camera_id": "BULLET-MIDPLANE",
+  "display_progress": false,
+  "stride": 1,
+  "rgb_pipeline": true,
+  "power_pipeline": false,
+  "radiance_pipeline": false,
+  "__comment-225344732264250526__": "!\n"
+ },
+ "raytracing": {
+  "__comment4224012704__": "!\n",
+  "__comment1155478351695276279__": "! specify ray tracing settings\n",
+  "integration_step": 0.0025,
+  "pixel_samples": 1,
+  "__comment-225344732264250526__": "!\n"
+ },
+ "dms": {
+  "__comment4224012704__": "!\n",
+  "__comment-1155473421964088967__": "! specify diagnostic settings\n",
+  "simulate": true,
+  "spectrometer": 4,
+  "fibres": 2,
+  "power_pipeline": false,
+  "radiance_pipeline": true,
+  "los_profiles": true,
+  "fibre_choice": -1,
+  "__comment-225344732264250526__": "!\n",
+  "spectral_rays": 1,
+  "pixel_samples": 10,
+  "acceptance_angle": 1,
+  "radius": 0.001
+ },
+ "bolometry": {
+  "__comment4224012704__": "!\n",
+  "__comment-1155473421964088967__": "! specify diagnostic settings\n",
+  "simulate": false,
+  "__comment-225344732264250526__": "!\n"
+ }
+}

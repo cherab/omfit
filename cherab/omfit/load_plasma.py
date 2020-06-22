@@ -1,5 +1,4 @@
 
-
 def load_edge_simulation(config, world):
 
     # Only try to do something if edge plasma has been selected as True
@@ -30,7 +29,11 @@ def _load_solps_simulation(config, world):
 
         sim = load_solps_from_mdsplus(mds_server, mds_solps_reference)
         plasma = sim.create_plasma(parent=world)
-
+        if config['plasma']['edge']['mesh']:
+            mesh = sim.mesh
+        else:
+            mesh = None
+            
     elif config['plasma']['edge']['SOLPS_format'] == 'Files':
 
         from cherab.solps import load_solps_from_raw_output
@@ -42,5 +45,5 @@ def _load_solps_simulation(config, world):
     else:
         raise ValueError("Unrecognised SOLPS format '{}'.".format(config['plasma']['edge']['SOLPS_format']))
 
-    return plasma
+    return plasma, mesh
 

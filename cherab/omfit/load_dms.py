@@ -32,7 +32,7 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
         except KeyError:
             raise ValueError("The species emission specification for this config file is invalid.")
         nz_los = np.zeros((numlos,fibgeom.numfibres,species.atomic_number+1))
-        ions = np.linspace(0,species.atomic_number,num=species.atomic_number+1)  
+        ions = np.linspace(0,species.atomic_number,num=species.atomic_number+1)
     else:
         nz_los=np.zeros((numlos,fibgeom.numfibres,1))
 
@@ -40,11 +40,11 @@ def load_dms_output(config,world,plasma,spec,fibgeom,numlos):
         fib = [config['dms']['fibre_choice']]
     else:
         fib = np.linspace(1,fibgeom.numfibres,num=fibgeom.numfibres)
-        
+
     for i, f in enumerate(fib):
         arridx = int(f)-1
         print ("Analysing fibre: ",int(f))
-        fibgeom.set_fibre(number=int(f))        
+        fibgeom.set_fibre(number=int(f))
         start_point    = Point3D(fibgeom.origin[0],fibgeom.origin[1],fibgeom.origin[2])
         forward_vector = Vector3D(fibgeom.xhat(),fibgeom.yhat(),fibgeom.zhat()).normalise()
         up_vector      = Vector3D(1.0, 1.0, 1.0)
@@ -102,38 +102,34 @@ def get_device(config):
     device=config['machine']['name']
     device_check=[device in d for d in devices]
     if not any([device in d for d in devices]):
-	raise ValueError("{} not an availible devices!".format(device)))
+        raise ValueError("{} not an availible devices!".format(device))
     # get the correct device
-    device_index=where(device_check)
+    device_index=where(device_check)[0][0]
     try:
-	if device_index==0: # mast-u
-	    import cherab.mastu as device_module
-	if device_index==1: # asdex
-	    import cherab.aug as device_module
-	if device_index==2: # tcv
-	    import cherab.tcv as device_module
-	if device_index==3: # jet
-	    import cherab.jet as device_module
+        if device_index==0: # mast-u
+            import cherab.mastu.div_spectrometer as device_module
+        if device_index==1: # asdex
+            import cherab.aug.div_spectrometer as device_module
+        if device_index==2: # tcv
+            import cherab.tcv.div_spectrometer as device_module
+        if device_index==3: # jet
+            import cherab.jet.div_spectrometer as device_module
     except ImportError:
-	ImportError("Cherab model for {} does not exist".format(device))
-    # return the modul if found
+        ImportError("Cherab model for {} does not exist".format(device))
+    # return the module if found
     return device_module
 
 def load_dms_spectrometer(config):
     # get the correct device module
     device_module=get_device(config)
-    # import, instanciate and return spectrometer
-    from device_module.div_spectrometer import spectrometer  
-    spec=spectrometer()
-    spec.set_range(setting=config['dms']['spectrometer']) 
-    return spec	
+    spec=device_module.spectrometer()
+    spec.set_range(setting=config['dms']['spectrometer'])
+    return spec
 
 def load_dms_fibres(config):
     # get the correct device module
     device_module=get_device(config)
-    # import, instanciate and return fibres
-    from device_module.div_spectrometer import fibres
-    fibgeom = fibres()
+    fibgeom = device_module.fibres()
     fibgeom.set_bundle(group=config['dms']['fibres'])
     return fibgeom
-	
+
